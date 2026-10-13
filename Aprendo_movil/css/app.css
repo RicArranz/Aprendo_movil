@@ -1,0 +1,202 @@
+/* Aprendo con mi móvil — estilos de la web (no del móvil simulado: eso está en phone.css) */
+:root {
+  --fs: 20px;
+  --bg: #fbf7ef;
+  --ink: #1d2433;
+  --muted: #566074;
+  --primary: #1d4ed8;
+  --primary-ink: #fff;
+  --ok: #15803d;
+  --ok-bg: #dcfce7;
+  --warn-bg: #fff4d6;
+  --card: #fff;
+  --line: #e3dccb;
+  --radius: 22px;
+}
+* { box-sizing: border-box; }
+html { font-size: var(--fs); -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0; overflow-x: hidden; background: var(--bg); color: var(--ink);
+  font-family: "Segoe UI", system-ui, -apple-system, Roboto, "Helvetica Neue", Arial, sans-serif;
+  line-height: 1.45; min-height: 100dvh;
+}
+button { font: inherit; color: inherit; }
+[hidden] { display: none !important; }
+b, strong { font-weight: 700; }
+
+/* ---------- cabecera ---------- */
+.top {
+  display: flex; align-items: center; flex-wrap: wrap; gap: .4rem .6rem; padding: .5rem .9rem;
+  background: #fff; border-bottom: 2px solid var(--line); position: sticky; top: 0; z-index: 20; font-size: min(var(--fs), 22px);
+}
+.top h1 { font-size: 1.05em; margin: 0; flex: 1 1 auto; min-width: 0; font-weight: 800; letter-spacing: .01em; overflow-wrap: anywhere; }
+.top h1 span { color: var(--primary); }
+.tbtn {
+  min-height: 2.6em; min-width: 2.6em; padding: 0 .7em; border-radius: 14px; flex: none;
+  border: 2px solid var(--line); background: #fff; cursor: pointer; font-weight: 700; font-size: .85em;
+}
+.tbtn:hover { border-color: var(--primary); }
+.tbtn:focus-visible, .btn:focus-visible, .choice:focus-visible, .card a:focus-visible { outline: 4px solid #f59e0b; outline-offset: 2px; }
+
+/* ---------- vistas generales ---------- */
+main { padding: 1rem; }
+.wrap { max-width: 880px; margin: 0 auto; }
+.hero { text-align: center; padding: .6rem 0 .2rem; }
+.hero h2 { font-size: 1.9rem; margin: .2rem 0 .4rem; line-height: 1.15; }
+.hero p { color: var(--muted); margin: .2rem 0 1rem; font-size: 1rem; }
+
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: .5rem;
+  min-height: 3.4rem; padding: .5rem 1.4rem; border-radius: 18px; border: 0; cursor: pointer;
+  background: var(--primary); color: var(--primary-ink); font-weight: 800; font-size: 1.05rem;
+  box-shadow: 0 4px 0 rgba(0,0,0,.18); text-decoration: none;
+}
+.btn:active { transform: translateY(2px); box-shadow: 0 2px 0 rgba(0,0,0,.18); }
+.btn.alt { background: #fff; color: var(--ink); border: 2px solid var(--line); box-shadow: 0 3px 0 var(--line); }
+.btn.good { background: var(--ok); }
+.btn.small { min-height: 2.6rem; font-size: .9rem; padding: .3rem 1rem; border-radius: 14px; }
+.linkbtn { background: none; border: 0; color: var(--primary); text-decoration: underline; cursor: pointer; font-size: .9rem; padding: .6rem; }
+
+/* ---------- elegir móvil ---------- */
+.choices { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1rem 0; }
+.choice {
+  background: #fff; border: 3px solid var(--line); border-radius: 28px; padding: 1.2rem .8rem; cursor: pointer;
+  display: flex; flex-direction: column; align-items: center; gap: .5rem; text-align: center; font-size: 1.15rem;
+  box-shadow: 0 6px 0 var(--line);
+}
+.choice:hover, .choice:focus-visible { border-color: var(--primary); }
+.choice:active { transform: translateY(3px); box-shadow: 0 3px 0 var(--line); }
+.choice .big { font-size: 4.2rem; line-height: 1; }
+.choice b { font-size: 1.5rem; }
+.choice small { color: var(--muted); font-size: .85rem; }
+.help-box { background: var(--warn-bg); border-radius: 18px; padding: .8rem 1rem; font-size: .9rem; margin-top: .6rem; }
+.minis { display: flex; justify-content: center; gap: 2rem; margin: .8rem 0 1rem; flex-wrap: wrap; }
+.minis .choice { width: 12rem; }
+
+/* ---------- menú de módulos ---------- */
+.cards { display: grid; gap: 1rem; margin: 1rem 0; }
+.card {
+  background: var(--card); border: 2px solid var(--line); border-radius: var(--radius); padding: 1rem 1.1rem;
+  display: grid; grid-template-columns: auto 1fr; gap: .2rem 1rem; align-items: center;
+}
+.card .ico { grid-row: span 3; width: 3.6rem; height: 3.6rem; border-radius: 16px; background: #e8efff; color: var(--primary); display: flex; align-items: center; justify-content: center; }
+.card h3 { margin: 0; font-size: 1.25rem; }
+.card p { margin: 0; color: var(--muted); font-size: .9rem; }
+.card .bar { height: .7rem; background: #ece6d6; border-radius: 99px; overflow: hidden; margin: .3rem 0; }
+.card .bar i { display: block; height: 100%; background: var(--ok); border-radius: 99px; }
+.card .acts { display: flex; gap: .6rem; flex-wrap: wrap; align-items: center; margin-top: .3rem; }
+.card details { grid-column: 1 / -1; margin-top: .3rem; }
+.card summary { cursor: pointer; color: var(--primary); font-size: .85rem; padding: .3rem 0; }
+.card ol { margin: .3rem 0 0; padding-left: 1.6rem; }
+.card li { margin: .15rem 0; font-size: .9rem; }
+.card li a { color: var(--ink); }
+.card li.done a::after { content: " ✔"; color: var(--ok); font-weight: 800; }
+.resume {
+  background: var(--ok-bg); border: 2px solid #86efac; border-radius: var(--radius); padding: 1rem;
+  display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; justify-content: space-between;
+}
+.resume p { margin: 0; font-size: 1rem; }
+.who { text-align: center; color: var(--muted); font-size: .9rem; }
+
+/* ---------- lección ---------- */
+.lesson { display: grid; grid-template-columns: minmax(300px, 1fr) auto; gap: 1.2rem; max-width: 1180px; margin: 0 auto; align-items: start; }
+.coach {
+  background: #fff; border: 2px solid var(--line); border-radius: var(--radius); padding: 1rem 1.1rem;
+  position: sticky; top: 4.2rem; display: flex; flex-direction: column; gap: .7rem;
+}
+.coach .where { font-size: .8rem; color: var(--muted); font-weight: 700; text-transform: uppercase; letter-spacing: .05em; display: flex; justify-content: space-between; gap: .5rem; }
+.dots { display: flex; gap: .3rem; flex-wrap: wrap; }
+.dots i { width: .75rem; height: .75rem; border-radius: 50%; background: #e5dfcf; display: block; }
+.dots i.done { background: var(--ok); }
+.dots i.now { background: var(--primary); box-shadow: 0 0 0 3px #bfd0ff; }
+.coach h2 { margin: 0; font-size: 1.35rem; line-height: 1.2; }
+.say { font-size: 1.2rem; line-height: 1.5; }
+.say kbd, .cele kbd {
+  font: inherit; font-weight: 800; background: #eef1f7; border: 2px solid #c8cfdd; border-bottom-width: 4px;
+  border-radius: 8px; padding: 0 .4em; white-space: nowrap;
+}
+.say mark { background: #fde68a; padding: 0 .2em; border-radius: 4px; }
+.sub { font-size: .85rem; background: #eef2ff; color: #3730a3; border-radius: 99px; padding: .15rem .7rem; align-self: flex-start; font-weight: 700; }
+.fb { min-height: 1.6rem; font-size: 1rem; font-weight: 600; border-radius: 12px; }
+.fb.show { background: var(--warn-bg); padding: .55rem .8rem; }
+.fb.good { background: var(--ok-bg); color: #14532d; }
+.mira { background: #eef2ff; border-radius: 12px; padding: .5rem .8rem; font-weight: 700; color: #3730a3; display: none; }
+.mira.on { display: block; animation: blink 1.4s infinite; }
+@keyframes blink { 50% { opacity: .55; } }
+.coach .row { display: flex; gap: .6rem; flex-wrap: wrap; }
+.coach .foot { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: .3rem; }
+.stage { display: flex; justify-content: center; min-width: 0; }
+.stagebox { position: relative; }
+
+/* felicitación */
+.cele {
+  position: fixed; inset: 0; background: rgba(20,28,45,.62); z-index: 50; display: flex; align-items: center; justify-content: center; padding: 1rem;
+}
+.cele[hidden] { display: none; }
+.cele .box {
+  background: #fff; border-radius: 32px; padding: 1.6rem 1.4rem; max-width: 30rem; width: 100%; text-align: center;
+  animation: fadein .25s ease-out; position: relative; overflow: hidden;
+}
+@keyframes pop { from { transform: scale(.6); opacity: 0; } to { transform: none; opacity: 1; } }
+.cele .face { line-height: 0; display: flex; justify-content: center; }
+.cele h3 { font-size: 1.5rem; margin: .5rem 0 .2rem; color: var(--ink); }
+.cele p { font-size: 1.1rem; margin: .3rem 0 1rem; }
+.cele .btns { display: flex; flex-direction: column; gap: .6rem; }
+.conf { position: absolute; top: -10px; font-size: 1.4rem; animation: fall 2.2s linear forwards; pointer-events: none; }
+@keyframes fall { to { transform: translateY(26rem) rotate(360deg); opacity: .2; } }
+
+#toast {
+  position: fixed; left: 50%; bottom: 1rem; transform: translateX(-50%); background: #1d2433; color: #fff;
+  border-radius: 16px; padding: .7rem 1.1rem; font-size: .95rem; z-index: 60; opacity: 0; pointer-events: none; transition: opacity .25s; max-width: 92vw; text-align: center;
+}
+#toast.on { opacity: 1; }
+
+/* ---------- móvil pequeño: instrucciones arriba, móvil debajo ---------- */
+@media (max-width: 820px) {
+  html { font-size: calc(var(--fs) * .9); }
+  .lesson { grid-template-columns: 1fr; gap: .6rem; }
+  .top { padding: .35rem .5rem; gap: .35rem; }
+  .top h1 { font-size: .95em; }
+  .top h1 .nm { display: none; }
+  .tbtn { min-height: 2.4em; min-width: 2.4em; padding: 0 .55em; }
+  .coach { position: static; padding: .6rem .8rem; gap: .4rem; border-radius: 16px; }
+  .coach .where, .coach h2 { display: none; }
+  .coach .row { gap: .4rem; }
+  .coach .row .btn { flex: 1 1 6rem; padding: .2rem .4rem; min-height: 2.4rem; font-size: .9rem; }
+  .coach .foot { gap: 0 .6rem; }
+  .coach .foot .linkbtn { padding: .3rem .2rem; font-size: .85rem; }
+  .say { font-size: .98rem; line-height: 1.35; }
+  .fb { font-size: .9rem; }
+  .choices { grid-template-columns: 1fr; }
+  .hero h2 { font-size: 1.5rem; }
+  main { padding: .6rem; }
+}
+@media (prefers-reduced-motion: reduce) { * { animation-duration: .01ms !important; transition-duration: .01ms !important; } }
+
+/* textos largos nunca rompen el diseño */
+.say, .fb, .card p, .card h3, .choice small, .help-box { overflow-wrap: anywhere; }
+.choice { min-width: 0; }
+.minis .choice { width: min(12rem, 100%); }
+.card { grid-template-columns: auto minmax(0, 1fr); }
+@media (max-width: 480px) {
+  .card { grid-template-columns: 1fr; }
+  .card .ico { grid-row: auto; width: 3rem; height: 3rem; }
+  .minis { gap: .8rem; }
+  .cele .box { padding: 1.2rem .9rem; }
+}
+@media (max-width: 820px) and (max-height: 520px) { .cele .box { max-height: 92vh; overflow: auto; } }
+
+.coach.nostick { position: static; }
+.coach .foot .linkbtn { white-space: normal; text-align: left; }
+
+.fab { position: fixed; left: 50%; bottom: .8rem; transform: translateX(-50%); z-index: 40; border: 0; border-radius: 99px; background: var(--primary); color: #fff; font-weight: 800; font-size: .95rem; padding: .7rem 1.2rem; box-shadow: 0 6px 16px rgba(0,0,0,.35); cursor: pointer; }
+.fab[hidden] { display: none; }
+@media (min-width: 821px) { .fab { display: none !important; } }
+
+/* en el móvil, pulsar dos veces seguidas NO hace zoom (el botón del iPhone, las teclas…); el pellizco sigue valiendo */
+html, body, .phone, .phone * { touch-action: manipulation; }
+.p-home, .p-panel, .p-panel *, .qt, .cc-b, .sel-h { touch-action: none; }
+.p-app, .qe-sc { touch-action: pan-y; }
+.rc { touch-action: pan-x; }
+@keyframes fadein { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+.cele .box { border-radius: 22px; }
