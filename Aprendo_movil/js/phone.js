@@ -58,14 +58,19 @@
     x: '<path d="M6 6l12 12M18 6L6 18"/>'
   };
 
+  /* iconos de imagen (carpeta icons/iconos): las apps de Google solo en Android; los iconos en negro se invierten sobre fondos oscuros por CSS */
+  var tic = AM.tic = function (n, sz) { return '<img class="tic" src="icons/iconos/' + n + '.png" width="' + sz + '" height="' + sz + '" alt="" draggable="false">'; };
+  AM.appIc = function (a, ios) { return a[3] && !(ios && a[4]) ? '<img class="aimg" src="icons/iconos/' + a[3] + '.png" alt="" draggable="false">' : a[1]; };
+  AM.appBg = function (a, ios) { return a[3] && !(ios && a[4]) ? '#fff' : a[2]; };
+
   var DEFAULT_STATE = { wifi: true, bt: false, air: false, torch: false, dnd: false, rot: true, saver: false, loc: true, data: true, nfc: false, hotspot: false, bright: 70, vol: 50, orient: false, focus: false };
 
   /* ---------- apps ---------- */
   var APPS = AM.APPS = {
-    telefono: ['Teléfono', '📞', '#2e7d32'], whatsapp: ['WhatsApp', '💬', '#128c7e'], mensajes: ['Mensajes', '💬', '#34c759'],
-    camara: ['Cámara', '📷', '#4b5563'], fotos: ['Fotos', '🌄', '#f59e0b'], chrome: ['Chrome', '🌐', '#4285f4'], safari: ['Safari', '🧭', '#0a84ff'],
-    ajustes: ['Ajustes', '⚙️', '#6b7280'], notas: ['Notas', '📝', '#facc15'], correo: ['Correo', '✉️', '#ef4444'],
-    reloj: ['Reloj', '⏰', '#1f2937'], mapas: ['Mapas', '🗺️', '#16a34a'], youtube: ['YouTube', '▶️', '#dc2626'], calc: ['Calculadora', '🧮', '#374151'],
+    telefono: ['Teléfono', '📞', '#2e7d32'], whatsapp: ['WhatsApp', '💬', '#128c7e', 'whatsapp'], mensajes: ['Mensajes', '💬', '#34c759'],
+    camara: ['Cámara', '📷', '#4b5563'], fotos: ['Fotos', '🌄', '#f59e0b', 'galeria-de-fotos', 1], chrome: ['Chrome', '🌐', '#4285f4', 'cromo', 1], safari: ['Safari', '🧭', '#0a84ff'],
+    ajustes: ['Ajustes', '⚙️', '#6b7280'], notas: ['Notas', '📝', '#facc15'], correo: ['Correo', '✉️', '#ef4444', 'gmail', 1],
+    reloj: ['Reloj', '⏰', '#1f2937'], mapas: ['Mapas', '🗺️', '#16a34a', 'ubicacion', 1], youtube: ['YouTube', '▶️', '#dc2626', 'youtube'], calc: ['Calculadora', '🧮', '#374151', 'calculadora', 1],
     solitario: ['Solitario', '🃏', '#0f766e'], radio: ['Radio', '📻', '#7c3aed'], tiempo: ['El tiempo', '⛅', '#0ea5e9']
   };
   /* escena que enseña cada app (el resto abre una pantalla de práctica) */
@@ -147,7 +152,7 @@
     },
     dummy: function (p, cfg) {
       var a = APPS[cfg.app] || ['App', '📱', '#999'];
-      return '<div class="sc dummy blankzone"><div class="dm-ic" style="background:' + a[2] + '">' + a[1] + '</div><h3>' + a[0] + '</h3><p>Esta aplicación es de práctica: aquí no hay nada que hacer.</p></div>';
+      return '<div class="sc dummy blankzone"><div class="dm-ic" style="background:' + AM.appBg(a, p.ios) + '">' + AM.appIc(a, p.ios) + '</div><h3>' + a[0] + '</h3><p>Esta aplicación es de práctica: aquí no hay nada que hacer.</p></div>';
     },
     notes: function (p, cfg) {
       return '<div class="sc notes"><div class="nt-head blankzone">' + (p.ios ? '‹ Notas' : 'Nueva nota') + '</div>' +
@@ -166,18 +171,18 @@
 
   /* ---------- iconos del panel (Android) ---------- */
   var TILES = AM.TILES = {
-    wifi: [svg(IC.wifi, 22), 'Wi-Fi', 'Casa_Wifi', 'Desactivado'], bt: [svg(IC.bt, 22), 'Bluetooth', 'Activado', 'Desactivado'],
+    wifi: [svg(IC.wifi, 22), 'Wi-Fi', 'Casa_Wifi', 'Desactivado'], bt: [tic('bluetooth', 22), 'Bluetooth', 'Activado', 'Desactivado'],
     torch: [svg(IC.torch, 22), 'Linterna', 'Activada', 'Desactivada'], rot: [svg(IC.rot, 22), 'Girar pantalla', 'Activado', 'Desactivado'],
     air: [svg(IC.air, 22), 'Modo avión', 'Activado', 'Desactivado'], dnd: [svg(IC.dnd, 22), 'No molestar', 'Activado', 'Desactivado'],
-    saver: [svg(IC.batt, 22), 'Ahorro de batería', 'Activado', 'Desactivado'], loc: [svg(IC.loc, 22), 'Ubicación', 'Activada', 'Desactivada'],
-    data: [svg(IC.data, 20), 'Datos móviles', 'Activados', 'Desactivados'], nfc: [svgS(IS.nfc, 22), 'NFC', 'Activado', 'Desactivado'],
+    saver: [svg(IC.batt, 22), 'Ahorro de batería', 'Activado', 'Desactivado'], loc: [tic('marcador-de-posicion', 22), 'Ubicación', 'Activada', 'Desactivada'],
+    data: [svg(IC.data, 20), 'Datos móviles', 'Activados', 'Desactivados'], nfc: [tic('nfc', 22), 'NFC', 'Activado', 'Desactivado'],
     hotspot: [svgS(IS.hotspot, 22), 'Punto de acceso', 'Activado', 'Desactivado'],
     captura: [svgS(IS.shot, 22), 'Captura de pantalla', '', '', true], qr: [svgS(IS.qr, 22), 'Escáner QR', '', '', true]
   };
   var DEFAULT_QS = ['wifi', 'bt', 'torch', 'rot', 'air', 'dnd', 'saver', 'loc'];
   var CC_ITEMS = AM.CC_ITEMS = {
-    torch: [svg(IC.torch, 26), 'Linterna'], timer: [svgS(IS.timer, 26), 'Temporizador'], calc: [svgS(IS.calc, 26), 'Calculadora'], cam: [svgS(IS.cam, 26), 'Cámara'],
-    grab: [svgS(IS.rec, 26), 'Grabación de pantalla'], nfc: [svgS(IS.nfc, 26), 'Lector de códigos NFC'], lupa: [svgS(IS.zoom, 26), 'Lupa']
+    torch: [svg(IC.torch, 26), 'Linterna'], timer: [svgS(IS.timer, 26), 'Temporizador'], calc: [tic('calculadora', 26), 'Calculadora'], cam: [svgS(IS.cam, 26), 'Cámara'],
+    grab: [svgS(IS.rec, 26), 'Grabación de pantalla'], nfc: [tic('nfc', 26), 'Lector de códigos NFC'], lupa: [svgS(IS.zoom, 26), 'Lupa']
   };
   var DEFAULT_CC = ['torch', 'timer', 'calc', 'cam'];
 
@@ -448,7 +453,7 @@
         return '<div class="cc-b" data-static="1" aria-label="' + it[1] + '">' + it[0] + '</div>';
       }).join('');
       h = '<div class="cc-bg' + (edit ? ' editing' : '') + '">' + (edit ? '<div class="cc-ok" data-ccedit="done" role="button">OK</div>' : '<div class="cc-plus" data-ccedit="open" role="button" aria-label="Editar controles">+</div>') + '<div class="cc-grid">' +
-        '<div class="cc-conn">' + b('air', svg(IC.air, 24), 'air') + b('data', svg(IC.data, 20), 'data') + b('wifi', svg(IC.wifi, 24), 'wifi') + b('bt', svg(IC.bt, 24), 'bt') + '</div>' +
+        '<div class="cc-conn">' + b('air', svg(IC.air, 24), 'air') + b('data', svg(IC.data, 20), 'data') + b('wifi', svg(IC.wifi, 24), 'wifi') + b('bt', tic('bluetooth', 24), 'bt') + '</div>' +
         '<div class="cc-b cc-media" data-static="1"><b>No se está reproduciendo nada</b><span>♪</span></div>' +
         '<div class="cc-b cc-orient' + (s.orient ? ' on' : '') + '" data-tile="orient">' + svgS(IS.lockrot, 26) + '</div>' +
         '<div class="cc-b" data-static="1">' + svgS(IS.mirror, 26) + '</div>' +

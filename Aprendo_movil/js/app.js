@@ -48,8 +48,8 @@
   }
 
   /* ---------- elegir móvil ---------- */
-  var SVG_ROBOT = '<svg viewBox="8 8 48 36" width="110" height="82" aria-hidden="true"><path d="M12 40a20 20 0 0140 0z" fill="#3ddc84"/><circle cx="24" cy="31" r="2.6" fill="#073042"/><circle cx="40" cy="31" r="2.6" fill="#073042"/><path d="M18 14l5 8M46 14l-5 8" stroke="#3ddc84" stroke-width="3.2" stroke-linecap="round"/></svg>';
-  var SVG_APPLE = '<span style="font-size:4.6rem;line-height:84px;display:block" aria-hidden="true">🍎</span>';
+  var SVG_ROBOT = '<img src="icons/iconos/logotipo-de-android.png" width="84" height="84" alt="" draggable="false">';
+  var SVG_APPLE = '<img src="icons/iconos/logotipo-de-apple.png" width="84" height="84" alt="" draggable="false">';
   var SVG_BTN_PHONE = '<svg viewBox="0 0 60 100" width="60" height="100" aria-hidden="true"><rect x="3" y="3" width="54" height="94" rx="9" fill="#fff" stroke="#1d2433" stroke-width="4"/><circle cx="30" cy="84" r="7" fill="none" stroke="#1d2433" stroke-width="4"/><rect x="10" y="12" width="40" height="58" rx="3" fill="#dbe4ff"/></svg>';
   var SVG_NOTCH_PHONE = '<svg viewBox="0 0 60 100" width="60" height="100" aria-hidden="true"><rect x="3" y="3" width="54" height="94" rx="14" fill="#fff" stroke="#1d2433" stroke-width="4"/><rect x="21" y="9" width="18" height="6" rx="3" fill="#1d2433"/><rect x="8" y="20" width="44" height="66" rx="3" fill="#dbe4ff"/><rect x="21" y="90" width="18" height="3" rx="1.5" fill="#1d2433"/></svg>';
 
@@ -58,7 +58,7 @@
     if (!step2) {
       h += '<div class="hero"><h2>Aprende a usar tu móvil</h2><p>Paso a paso, sin prisa y sin miedo a equivocarte.<br>Aquí <b>no se puede romper nada</b>.</p></div>' +
         '<h2 style="text-align:center;font-size:1.7rem;margin:.4rem 0">¿Qué móvil tienes?</h2>' +
-        '<div class="choices"><button class="choice" data-os="ios"><span class="big">' + SVG_APPLE + '</span><b>1 · iPhone</b><small>Tiene una manzanita 🍎 detrás</small></button>' +
+        '<div class="choices"><button class="choice" data-os="ios"><span class="big">' + SVG_APPLE + '</span><b>1 · iPhone</b><small>Tiene una manzanita detrás</small></button>' +
         '<button class="choice" data-os="android"><span class="big">' + SVG_ROBOT + '</span><b>2 · Android</b><small>Samsung, Xiaomi, Motorola, Huawei…</small></button></div>' +
         '<div class="help-box">💡 <b>¿No lo sabes?</b> Dale la vuelta al móvil: si ves una <b>manzana</b>, es un iPhone. Si no, casi seguro es Android. También puedes preguntar a tu profesor/a.</div>';
     } else {

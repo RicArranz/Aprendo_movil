@@ -642,7 +642,7 @@
       tasks: [{
         scene: 'chat', cfg: { msgs: [ADDR] }, hint: '.bub .seltxt', show: function (p) { return p.demoSwipe('hold', TOL(p)); },
         goal: function (ev) { return ev.type === 'select' && /Toledo/.test(ev.text); },
-        say: 'Marta te ha mandado su dirección. Para <b>copiar texto</b>, primero hay que <b>elegirlo</b>: mantén el dedo <b>pulsado</b> sobre una palabra (verás un círculo naranja que se llena). Hazlo sobre <mark>Toledo</mark>.<br><small>(Con el ratón: deja el botón pulsado un momento.)</small>'
+        say: 'Marta te ha mandado su dirección. Para <b>copiar texto</b>, primero hay que <b>elegirlo</b>: mantén el dedo <b>pulsado</b> sobre una palabra (verás un círculo naranja que se llena). Hazlo sobre <mark>Toledo</mark>.<br><small>(Con el dedo: tienes que calcar sostenidamente, sin levantarlo.)</small>'
       }]
     });
     m5.push({

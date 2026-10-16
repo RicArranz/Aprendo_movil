@@ -141,7 +141,7 @@
   P.buildNav = function () {
     var g = this.os === 'android' && this.navMode === 'gestures', ios = this.ios;
     this.root.classList.toggle('gest', g);
-    this.q('.p-nav').innerHTML = (ios || g) ? '<div class="home-ind"></div>' :
+    this.q('.p-nav').innerHTML = (ios || g) ? '<div class="gbar" data-zone="' + (ios ? 'botHome' : 'barG') + '" role="button" aria-label="Barra de gestos"><div class="home-ind"></div></div>' :
       '<div class="nb nb-back" data-nav="back" role="button" aria-label="Atrás">' + svg(IC.back, 22) + '</div>' +
       '<div class="nb nb-home" data-nav="home" role="button" aria-label="Inicio">' + svgS(IS.home, 26, 2.5) + '</div>' +
       '<div class="nb nb-rec" data-nav="recents" role="button" aria-label="Aplicaciones abiertas">' + svgS(IS.recents, 22, 2.5) + '</div>';
@@ -176,7 +176,7 @@
       if (k === 'back') self.back(); else if (k === 'home') self.pressHome(); else self.showRecents();
     });
     this.root.addEventListener('pointerdown', function (e) {
-      var ed = e.target.closest('.edge'), pn = e.target.closest('.p-panel');
+      var ed = e.target.closest('.edge, .gbar'), pn = e.target.closest('.p-panel');
       var base = { x0: e.clientX, y0: e.clientY, lx: e.clientX, ly: e.clientY, lt: Date.now(), dx: 0, dy: 0 };
       if (ed) { e.preventDefault(); self.drag = Object.assign({ zone: ed.dataset.zone }, base); }
       else if (!pn && self.edgeZone(e)) self.drag = Object.assign({ zone: self.edgeZone(e) }, base);
@@ -214,7 +214,7 @@
       if (z === 'botHome' || z === 'barG') {
         if (dy < -45 && Math.abs(dx) < 140) { var held = Date.now() - d.lt > 380 && dy > -300; self.emit('gesture', { kind: held ? 'recents' : 'home' }); if (held) self.showRecents(); else self.goHome(); }
         else if (Math.abs(dx) > 60 && Math.abs(dy) < 50) { self.emit('gesture', { kind: 'switch' }); self.switchPrev(); }
-        else if (d.moved) self.toast('Desliza el dedo desde la rayita hacia arriba.');
+        else self.toast('Pon el dedo en la rayita y desliza hacia arriba.');
       } else if (z === 'edgeL' || z === 'edgeR') {
         if ((z === 'edgeL' && dx > 45) || (z === 'edgeR' && dx < -45)) { self.emit('gesture', { kind: 'back' }); self.back(); }
         else if (d.moved) self.toast('Pon el dedo en el borde de la pantalla y arrástralo hacia dentro.');
@@ -251,7 +251,7 @@
     if (!ids.length) h = '<div class="rc-empty">' + (this.ios ? '' : 'No hay aplicaciones recientes') + '</div>';
     else h = '<div class="rc-track">' + ids.map(function (id) {
       var a = APPS[id];
-      return '<div class="rc" data-id="' + id + '"><div class="rc-h"><span class="ai" style="background:' + a[2] + '">' + a[1] + '</span>' + a[0] + '</div><div class="rc-t"><div class="rc-in">' + self.snap[id].html + '</div></div></div>';
+      return '<div class="rc" data-id="' + id + '"><div class="rc-h"><span class="ai" style="background:' + AM.appBg(a, self.ios) + '">' + AM.appIc(a, self.ios) + '</span>' + a[0] + '</div><div class="rc-t"><div class="rc-in">' + self.snap[id].html + '</div></div></div>';
     }).join('') + '</div>' + '<div class="rc-hint">' + (this.ios ? 'Desliza una tarjeta hacia arriba para cerrar la app' : 'Toca una tarjeta para abrirla · Desliza hacia arriba para cerrarla') + '</div>' +
       (this.ios ? '' : '<div class="rc-clear" data-rc="clear">Borrar todo</div>');
     this.q('.p-recents').innerHTML = h;
@@ -346,10 +346,10 @@
   /* ---------- pantalla de inicio ---------- */
   function appIcon(p, id) {
     var a = APPS[id], g = p.glowId() === id;
-    return '<div class="app' + (g ? ' glow' : '') + '" data-app="' + id + '"><div class="ai" style="background:' + a[2] + '">' + a[1] + '</div>' + a[0] + (p.ios && p.editMode ? '<i class="bdg" data-bdg="' + id + '">−</i>' : '') + '</div>';
+    return '<div class="app' + (g ? ' glow' : '') + '" data-app="' + id + '"><div class="ai" style="background:' + AM.appBg(a, p.ios) + '">' + AM.appIc(a, p.ios) + '</div>' + a[0] + (p.ios && p.editMode ? '<i class="bdg" data-bdg="' + id + '">−</i>' : '') + '</div>';
   }
   function folderIcon(p, f, i) {
-    var mini = f.apps.slice(0, 4).map(function (id) { return '<s style="background:' + APPS[id][2] + '">' + APPS[id][1] + '</s>'; }).join('');
+    var mini = f.apps.slice(0, 4).map(function (id) { return '<s style="background:' + AM.appBg(APPS[id], p.ios) + '">' + AM.appIc(APPS[id], p.ios) + '</s>'; }).join('');
     return '<div class="app fold" data-folder="' + i + '"><div class="ai fi">' + mini + '</div>' + (f.name ? esc(f.name) : '<span class="dim">Carpeta</span>') + '</div>';
   }
   P.renderHome = function () {
