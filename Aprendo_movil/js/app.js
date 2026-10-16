@@ -98,9 +98,10 @@
         '<div><div class="bar"><i style="width:' + Math.round(d / n * 100) + '%"></i></div><div class="acts"><a class="btn" href="#/m/' + (mi + 1) + '/' + (d === n ? 0 : first) + '">' + (d === 0 ? 'Empezar' : d === n ? 'Repetir' : 'Seguir') + ' ▶</a><small>' + d + ' de ' + n + '</small></div></div>' +
         '<details><summary>Ver todos los ejercicios</summary><ol>' + m.steps.map(function (s, si) { return '<li class="' + (S.isDone(os, mi + 1, si) ? 'done' : '') + '"><a href="#/m/' + (mi + 1) + '/' + si + '">' + s.title + '</a></li>'; }).join('') + '</ol></details></div>';
     });
-    h += '</div><p class="who"><button class="pill" id="chg"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="3" width="10" height="18" rx="2.5"/><path d="M11 18h2"/></svg>Cambiar de móvil</button><button class="pill danger" id="rst"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 7h14M10 7V4h4v3M7 7l1 13h8l1-13"/></svg>Borrar mi progreso</button></p></div>';
+    h += '</div><p class="who"><button class="pill" id="chg"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="3" width="10" height="18" rx="2.5"/><path d="M11 18h2"/></svg>Cambiar de móvil</button><button class="pill" id="inst" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11M7 11l5 5 5-5M5 20h14"/></svg>Instalar la app</button><button class="pill danger" id="rst"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 7h14M10 7V4h4v3M7 7l1 13h8l1-13"/></svg>Borrar mi progreso</button></p></div>';
     view.innerHTML = h;
     document.getElementById('chg').onclick = function () { go('#/elegir'); };
+    var ib = document.getElementById('inst'); if (ib && AM.install && AM.install.can()) { ib.hidden = false; ib.onclick = function () { AM.install.open(); }; }
     document.getElementById('rst').onclick = function () { if (confirm('¿Seguro que quieres borrar todo tu progreso?')) { S.reset(); go('#/'); } };
     window.scrollTo(0, 0);
   }
