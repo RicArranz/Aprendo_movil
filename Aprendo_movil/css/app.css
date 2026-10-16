@@ -233,3 +233,13 @@ details > summary { background: #e3e9f8; border-color: #b4c1e4; color: #1e3a8a; 
 details > summary:hover { background: #d9e2f6; border-color: var(--primary); }
 details > summary:active { transform: translateY(2px); box-shadow: 0 1px 0 #b4c1e4; }
 details > summary:focus-visible { outline: 4px solid #f59e0b; outline-offset: 2px; }
+
+/* ---------- ¿instalar la app? ---------- */
+.inst { position: fixed; inset: 0; z-index: 90; background: rgba(20,28,45,.55); display: flex; align-items: center; justify-content: center; padding: 1rem; animation: fadein .25s; }
+.inst-box { background: #fff; border-radius: 24px; padding: 1.4rem 1.2rem; max-width: 26rem; width: 100%; max-height: 92dvh; overflow: auto; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,.35); }
+.inst-box img { border-radius: 22%; box-shadow: 0 3px 10px rgba(29,78,216,.35); }
+.inst-box h2 { font-size: 1.35rem; line-height: 1.2; margin: .7rem 0 .4rem; }
+.inst-box p { color: var(--muted); margin: 0 0 1rem; font-size: .95rem; }
+.inst-steps { text-align: left; background: var(--warn-bg); border-radius: 16px; padding: .6rem 1rem .6rem .4rem; margin-bottom: 1rem; font-size: .95rem; }
+.inst-steps ol { margin: 0; padding-left: 1.6rem; } .inst-steps li { margin: .3rem 0; }
+.inst-btns { display: flex; flex-direction: column; gap: .7rem; align-items: stretch; }

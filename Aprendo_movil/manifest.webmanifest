@@ -3,6 +3,7 @@
   "short_name": "Aprendo móvil",
   "description": "Aprende a usar tu móvil paso a paso, sin miedo a equivocarte.",
   "start_url": "./index.html",
+  "scope": "./",
   "display": "standalone",
   "background_color": "#fbf7ef",
   "theme_color": "#1d4ed8",
