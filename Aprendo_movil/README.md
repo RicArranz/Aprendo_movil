@@ -10,7 +10,7 @@ Lo primero que pregunta es **¿qué móvil tienes? (iPhone 🍎 / Android)** y, 
 |---|---|
 | 1 · Dónde se escribe | tocar el cuadro para sacar el teclado (buscador, mensajes, formulario con 3 cuadros, cuadro escondido abajo, lupa), quitar el teclado y volver a sacarlo, **qué pasa si pulsas Inicio o Atrás** (no se pierde nada), reto de 3 pantallas |
 | 2 · Teclado | una palabra, espacio, mayúsculas, borrar, números, teclado de teléfono, `@`, `#`, correo, frase entera con coma/número/punto y enviarla, mensaje libre |
-| 3 · Panel de arriba / Centro de control | abrirlo con el gesto, encontrar iconos, Wi-Fi, linterna, Bluetooth, modo avión, brillo, **editar los iconos** (Android: lápiz ✎, añadir captura de pantalla, datos móviles y NFC, colocarlos y quitar el NFC; iPhone: Ajustes › Centro de control con grabación de pantalla y lector NFC), cerrarlo, reto final aleatorio |
+| 3 · Panel de arriba / Centro de control | abrirlo con el gesto, encontrar iconos, Wi-Fi, linterna, Bluetooth, modo avión, brillo, **editar los iconos** (Android: lápiz ✎, añadir captura de pantalla, datos móviles y NFC, colocarlos y quitar el NFC; iPhone: se edita dentro del propio centro de control con +, − y arrastrar), cerrarlo, reto final aleatorio |
 | 4 · Moverte y organizar apps | Atrás, Inicio, apps abiertas (ver, cambiar, cerrar una y todas), gestos (Android sin botones / iPhone), mover apps, crear carpetas, ponerles nombre, meter otra app, desinstalar o eliminar, reto |
 | 5 · Copiar y pegar | mantener pulsado para elegir texto, tiradores, copiar, pegar en otra app, cortar, copiar una foto y pegarla en un mensaje, reto con una web |
 
@@ -48,7 +48,7 @@ El teclado, el panel y los gestos copian lo que de verdad cambia entre sistemas:
 
 - En Android la `@` se busca siempre tras `?123`, también en los cuadros de correo.
 
-Limitaciones conocidas: no hay acentos por pulsación larga (`á`, `é`…), emojis ni dictado; en Samsung/Xiaomi el panel se ve algo distinto (se avisa en el ejercicio); el teclado es simulado (no se usa el del móvil del alumno) para controlar los ejercicios.
+Limitaciones conocidas: emojis y dictado no están (los acentos sí, con pulsación larga de la vocal); en Samsung/Xiaomi el panel se ve algo distinto (se avisa en el ejercicio); el teclado es simulado (no se usa el del móvil del alumno) para controlar los ejercicios.
 
 ## Estructura
 

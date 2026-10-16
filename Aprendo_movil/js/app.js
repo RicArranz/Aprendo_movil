@@ -66,7 +66,7 @@
         '<h2 style="text-align:center;font-size:1.5rem;margin:.4rem 0">¿Tu iPhone tiene un botón redondo abajo?</h2>' +
         '<div class="minis"><button class="choice" data-home="button">' + SVG_BTN_PHONE + '<b>Sí, tiene botón</b><small>Un círculo debajo de la pantalla</small></button>' +
         '<button class="choice" data-home="notch">' + SVG_NOTCH_PHONE + '<b>No, no tiene</b><small>La pantalla ocupa todo el frente</small></button></div>' +
-        '<p class="who"><button class="linkbtn" id="back1">← Volver</button></p>';
+        '<p class="who"><button class="pill" id="back1"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>Volver</button></p>';
     }
     view.innerHTML = h + '</div>';
     view.querySelectorAll('[data-os]').forEach(function (b) {
@@ -98,7 +98,7 @@
         '<div><div class="bar"><i style="width:' + Math.round(d / n * 100) + '%"></i></div><div class="acts"><a class="btn" href="#/m/' + (mi + 1) + '/' + (d === n ? 0 : first) + '">' + (d === 0 ? 'Empezar' : d === n ? 'Repetir' : 'Seguir') + ' ▶</a><small>' + d + ' de ' + n + '</small></div></div>' +
         '<details><summary>Ver todos los ejercicios</summary><ol>' + m.steps.map(function (s, si) { return '<li class="' + (S.isDone(os, mi + 1, si) ? 'done' : '') + '"><a href="#/m/' + (mi + 1) + '/' + si + '">' + s.title + '</a></li>'; }).join('') + '</ol></details></div>';
     });
-    h += '</div><p class="who"><button class="linkbtn" id="chg">Cambiar de móvil</button> · <button class="linkbtn" id="rst">Borrar mi progreso</button></p></div>';
+    h += '</div><p class="who"><button class="pill" id="chg"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="3" width="10" height="18" rx="2.5"/><path d="M11 18h2"/></svg>Cambiar de móvil</button><button class="pill danger" id="rst"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 7h14M10 7V4h4v3M7 7l1 13h8l1-13"/></svg>Borrar mi progreso</button></p></div>';
     view.innerHTML = h;
     document.getElementById('chg').onclick = function () { go('#/elegir'); };
     document.getElementById('rst').onclick = function () { if (confirm('¿Seguro que quieres borrar todo tu progreso?')) { S.reset(); go('#/'); } };
@@ -113,7 +113,7 @@
       '<section class="lesson"><aside class="coach" aria-live="polite"><div class="where"><span id="cw"></span><span id="cs"></span></div><div class="dots" id="dots"></div>' +
       '<h2 id="ct"></h2><div class="sub" id="csub" hidden></div><div class="say" id="say"></div><div class="mira" id="mira">👀 Mira con atención…</div><div class="fb" id="fb"></div>' +
       '<div class="row"><button class="btn alt small" id="bShow">👀 Enséñame</button><button class="btn alt small" id="bHint">💡 Pista</button><button class="btn alt small" id="bRepeat" title="Empezar este ejercicio otra vez">↻ Repetir</button></div>' +
-      '<div class="foot"><button class="linkbtn" id="bMenu">← Menú</button><button class="linkbtn" id="bSkip">Saltar ejercicio ▶</button></div></aside>' +
+      '<div class="foot"><button class="pill" id="bMenu"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>Menú</button><button class="pill" id="bSkip">Saltar ejercicio<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button></div></aside>' +
       '<div class="stage"><div class="stagebox" id="stagebox"><div id="phoneHost"></div></div></div></section><button class="fab" id="bUp" hidden>⬆ Ver las instrucciones</button><div class="cele" id="cele" hidden></div>';
     var $ = function (id) { return document.getElementById(id); };
     var phone = new AM.Phone($('phoneHost'), os, { iosHome: st.iosHome }), kb = phone.kb;

@@ -29,8 +29,11 @@ b, strong { font-weight: 700; }
   display: flex; align-items: center; flex-wrap: wrap; gap: .4rem .6rem; padding: .5rem .9rem;
   background: #fff; border-bottom: 2px solid var(--line); position: sticky; top: 0; z-index: 20; font-size: min(var(--fs), 22px);
 }
-.top h1 { font-size: 1.05em; margin: 0; flex: 1 1 auto; min-width: 0; font-weight: 800; letter-spacing: .01em; overflow-wrap: anywhere; }
-.top h1 span { color: var(--primary); }
+.top .sp { flex: 1 1 auto; }
+.logo { flex: none; border: 0; background: none; padding: 0; cursor: pointer; line-height: 0; border-radius: 14px; }
+.logo img { width: 2.4em; height: 2.4em; border-radius: 22%; box-shadow: 0 2px 6px rgba(29,78,216,.35); display: block; }
+.logo:active { transform: scale(.94); }
+.logo:focus-visible { outline: 4px solid #f59e0b; outline-offset: 2px; }
 .tbtn {
   min-height: 2.6em; min-width: 2.6em; padding: 0 .7em; border-radius: 14px; flex: none;
   border: 2px solid var(--line); background: #fff; cursor: pointer; font-weight: 700; font-size: .85em;
@@ -156,8 +159,7 @@ main { padding: 1rem; }
   html { font-size: calc(var(--fs) * .9); }
   .lesson { grid-template-columns: 1fr; gap: .6rem; }
   .top { padding: .35rem .5rem; gap: .35rem; }
-  .top h1 { font-size: .95em; }
-  .top h1 .nm { display: none; }
+  .logo img { width: 2.2em; height: 2.2em; }
   .tbtn { min-height: 2.4em; min-width: 2.4em; padding: 0 .55em; }
   .coach { position: static; padding: .6rem .8rem; gap: .4rem; border-radius: 16px; }
   .coach .where, .coach h2 { display: none; }
@@ -200,3 +202,34 @@ html, body, .phone, .phone * { touch-action: manipulation; }
 .rc { touch-action: pan-x; }
 @keyframes fadein { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
 .cele .box { border-radius: 22px; }
+
+/* ---------- botones secundarios (pastilla con icono) ---------- */
+.pill {
+  display: inline-flex; align-items: center; justify-content: center; gap: .45rem; min-height: 2.8rem; padding: .3rem 1.1rem;
+  border-radius: 99px; border: 2px solid var(--line); background: #fff; color: var(--primary); font-weight: 700; font-size: .92rem;
+  cursor: pointer; box-shadow: 0 3px 0 var(--line); text-align: center; line-height: 1.2; max-width: 100%;
+}
+.pill svg { width: 1.15em; height: 1.15em; flex: none; fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+.pill:hover { border-color: var(--primary); }
+.pill:active { transform: translateY(2px); box-shadow: 0 1px 0 var(--line); }
+.pill:focus-visible { outline: 4px solid #f59e0b; outline-offset: 2px; }
+.pill.danger { color: #b42318; }
+.pill.danger:hover { border-color: #b42318; }
+.who { display: flex; flex-wrap: wrap; justify-content: center; gap: .7rem; }
+.coach .foot { display: flex; gap: .5rem; justify-content: space-between; flex-wrap: wrap; }
+.coach .foot .pill { flex: 1 1 8rem; }
+details > summary {
+  list-style: none; display: inline-flex; align-items: center; gap: .45rem; cursor: pointer; font-weight: 700; font-size: .92rem;
+  color: var(--primary); padding: .45rem 1rem; border: 2px solid var(--line); border-radius: 99px; background: #fff; box-shadow: 0 3px 0 var(--line);
+}
+details > summary::-webkit-details-marker { display: none; }
+details > summary::before { content: ""; width: .5em; height: .5em; border: solid currentColor; border-width: 0 2.4px 2.4px 0; transform: rotate(-45deg); transition: transform .2s; }
+details[open] > summary::before { transform: rotate(45deg); }
+details[open] > summary { margin-bottom: .5rem; }
+@media (max-width: 820px) { .coach .foot .pill { min-height: 2.5rem; font-size: .85rem; padding: .2rem .7rem; } }
+details > summary { display: flex; width: fit-content; max-width: 100%; box-sizing: border-box; padding-right: 1.2rem; }
+/* "Ver todos los ejercicios": un poco más de cuerpo */
+details > summary { background: #e3e9f8; border-color: #b4c1e4; color: #1e3a8a; box-shadow: 0 3px 0 #b4c1e4; }
+details > summary:hover { background: #d9e2f6; border-color: var(--primary); }
+details > summary:active { transform: translateY(2px); box-shadow: 0 1px 0 #b4c1e4; }
+details > summary:focus-visible { outline: 4px solid #f59e0b; outline-offset: 2px; }
