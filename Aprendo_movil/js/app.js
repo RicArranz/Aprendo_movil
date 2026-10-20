@@ -21,7 +21,10 @@
       });
     } catch (e) { /* sin sonido */ }
   }
-  var PRAISE = ['Muy bien.', 'Hecho.', 'Correcto.', 'Bien hecho.'];
+  var PRAISE = ['Muy bien', 'Hecho', 'Correcto', 'Bien hecho'];
+  /* el nombre que escribió la persona (ya escapado) y la coletilla ", Marta" para llamarla por su nombre */
+  function who() { return AM.esc(S.get().name || ''); }
+  function tag() { var n = who(); return n ? ', ' + n : ''; }
   var TICK = '<svg viewBox="0 0 48 48" width="56" height="56" aria-hidden="true"><circle cx="24" cy="24" r="22" fill="#e3f4e8"/><path d="M14 25l7 7 13-15" fill="none" stroke="#2f7d4f" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
   /* iconos sencillos de cada módulo */
   var MODICON = {
@@ -72,11 +75,36 @@
     view.querySelectorAll('[data-os]').forEach(function (b) {
       b.onclick = function () {
         if (b.dataset.os === 'ios') { welcome(true); return; }
-        S.set({ os: 'android', iosHome: null }); go('#/menu');
+        S.set({ os: 'android', iosHome: null }); go(S.get().introDone ? '#/menu' : '#/hola');
       };
     });
-    view.querySelectorAll('[data-home]').forEach(function (b) { b.onclick = function () { S.set({ os: 'ios', iosHome: b.dataset.home }); go('#/menu'); }; });
+    view.querySelectorAll('[data-home]').forEach(function (b) { b.onclick = function () { S.set({ os: 'ios', iosHome: b.dataset.home }); go(S.get().introDone ? '#/menu' : '#/hola'); }; });
     var b1 = document.getElementById('back1'); if (b1) b1.onclick = function () { welcome(false); };
+    window.scrollTo(0, 0);
+  }
+
+  /* ---------- presentación y nombre ---------- */
+  function intro() {
+    var st = S.get(), n = st.name || '';
+    view.innerHTML = '<div class="wrap intro"><div class="hero"><h2>Antes de empezar</h2></div>' +
+      '<ul class="intro-list">' +
+      '<li><b>Lo que vas a usar es un móvil de mentira</b> (un simulador), que está dentro de esta página.</li>' +
+      '<li>Sirve para <b>aprender a manejar tu móvil de verdad</b>.</li>' +
+      '<li><b>Nada de lo que toques aquí cambia tu móvil real.</b> No se borra nada y no se manda nada a nadie.</li>' +
+      '<li>Es como <b>un juego</b>: puedes equivocarte todas las veces que quieras.</li></ul>' +
+      '<form class="namebox" id="nf" autocomplete="off"><label for="nm">¿Cómo te llamas?</label>' +
+      '<input id="nm" name="nombre" type="text" maxlength="20" placeholder="Escribe tu nombre" autocapitalize="words" autocorrect="off" spellcheck="false" enterkeyhint="go">' +
+      '<button class="btn good" type="submit">Empezar ▶</button>' +
+      '<button class="pill" type="button" id="nonm">Prefiero no decirlo</button></form></div>';
+    var inp = document.getElementById('nm'); inp.value = n;
+    var fin = function (name) { S.set({ name: name, introDone: true }); go('#/menu'); };
+    document.getElementById('nf').onsubmit = function (e) {
+      e.preventDefault();
+      var v = inp.value.replace(/\s+/g, ' ').trim();
+      if (!v) { toast('Escribe tu nombre, o pulsa «Prefiero no decirlo».'); inp.focus(); return; }
+      fin(v.charAt(0).toUpperCase() + v.slice(1));
+    };
+    document.getElementById('nonm').onclick = function () { fin(''); };
     window.scrollTo(0, 0);
   }
 
@@ -85,7 +113,7 @@
     var st = S.get(), L = AM.buildLessons(st.os, st.iosHome), os = st.os;
     var pos = st.pos[os], total = 0, done = 0;
     L.forEach(function (m, mi) { m.steps.forEach(function (s, si) { total++; if (S.isDone(os, mi + 1, si)) done++; }); });
-    var h = '<div class="wrap"><div class="hero"><h2>' + (done === total ? 'Has completado todos los módulos' : 'Elige qué quieres practicar') + '</h2>' +
+    var h = '<div class="wrap"><div class="hero"><h2>' + (done === total ? 'Has completado todos los módulos' + tag() : (who() ? 'Hola, ' + who() + '. ' : '') + 'Elige qué quieres practicar') + '</h2>' +
       '<p>Móvil: <b>' + osName(os) + (os === 'ios' ? (st.iosHome === 'button' ? ' (con botón)' : ' (sin botón)') : '') + '</b> · ' + done + ' de ' + total + ' ejercicios hechos</p></div>';
     if (pos && L[pos.m - 1] && L[pos.m - 1].steps[pos.s] && done < total) {
       h += '<div class="resume"><p>👉 <b>Sigue donde lo dejaste</b><br><small>Módulo ' + pos.m + ' · ' + L[pos.m - 1].steps[pos.s].title + '</small></p><a class="btn good" href="#/m/' + pos.m + '/' + pos.s + '">Continuar ▶</a></div>';
@@ -98,9 +126,10 @@
         '<div><div class="bar"><i style="width:' + Math.round(d / n * 100) + '%"></i></div><div class="acts"><a class="btn" href="#/m/' + (mi + 1) + '/' + (d === n ? 0 : first) + '">' + (d === 0 ? 'Empezar' : d === n ? 'Repetir' : 'Seguir') + ' ▶</a><small>' + d + ' de ' + n + '</small></div></div>' +
         '<details><summary>Ver todos los ejercicios</summary><ol>' + m.steps.map(function (s, si) { return '<li class="' + (S.isDone(os, mi + 1, si) ? 'done' : '') + '"><a href="#/m/' + (mi + 1) + '/' + si + '">' + s.title + '</a></li>'; }).join('') + '</ol></details></div>';
     });
-    h += '</div><p class="who"><button class="pill" id="chg"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="3" width="10" height="18" rx="2.5"/><path d="M11 18h2"/></svg>Cambiar de móvil</button><button class="pill" id="inst" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11M7 11l5 5 5-5M5 20h14"/></svg>Instalar la app</button><button class="pill danger" id="rst"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 7h14M10 7V4h4v3M7 7l1 13h8l1-13"/></svg>Borrar mi progreso</button></p></div>';
+    h += '</div><p class="who"><button class="pill" id="nmb"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6"/></svg>Mi nombre</button><button class="pill" id="chg"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="3" width="10" height="18" rx="2.5"/><path d="M11 18h2"/></svg>Cambiar de móvil</button><button class="pill" id="inst" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11M7 11l5 5 5-5M5 20h14"/></svg>Instalar la app</button><button class="pill danger" id="rst"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 7h14M10 7V4h4v3M7 7l1 13h8l1-13"/></svg>Borrar mi progreso</button></p></div>';
     view.innerHTML = h;
     document.getElementById('chg').onclick = function () { go('#/elegir'); };
+    document.getElementById('nmb').onclick = function () { go('#/hola'); };
     var ib = document.getElementById('inst'); if (ib && AM.install && AM.install.can()) { ib.hidden = false; ib.onclick = function () { AM.install.open(); }; }
     document.getElementById('rst').onclick = function () { if (confirm('¿Seguro que quieres borrar todo tu progreso?')) { S.reset(); go('#/'); } };
     window.scrollTo(0, 0);
@@ -114,8 +143,8 @@
       '<section class="lesson"><aside class="coach" aria-live="polite"><div class="where"><span id="cw"></span><span id="cs"></span></div><div class="dots" id="dots"></div>' +
       '<h2 id="ct"></h2><div class="sub" id="csub" hidden></div><div class="say" id="say"></div><div class="mira" id="mira">👀 Mira con atención…</div><div class="fb" id="fb"></div>' +
       '<div class="row"><button class="btn alt small" id="bShow">👀 Enséñame</button><button class="btn alt small" id="bHint">💡 Pista</button><button class="btn alt small" id="bRepeat" title="Empezar este ejercicio otra vez">↻ Repetir</button></div>' +
-      '<div class="foot"><button class="pill" id="bMenu"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>Menú</button><button class="pill" id="bSkip">Saltar ejercicio<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button></div></aside>' +
-      '<div class="stage"><div class="stagebox" id="stagebox"><div id="phoneHost"></div></div></div></section><button class="fab" id="bUp" hidden>⬆ Ver las instrucciones</button><div class="cele" id="cele" hidden></div>';
+      '<div class="foot"><button class="pill" id="bMenu"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>Menú</button><button class="pill" id="bSkip"><span>Saltar<span class="lg"> ejercicio</span></span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button></div></aside>' +
+      '<div class="stage"><div class="stagebox" id="stagebox"><div id="phoneHost"></div></div></div></section><div class="cele" id="cele" hidden></div>';
     var $ = function (id) { return document.getElementById(id); };
     var phone = new AM.Phone($('phoneHost'), os, { iosHome: st.iosHome }), kb = phone.kb;
     var curSi = si, step, task, ti = 0, tok = 0, sceneKey = null, done = false, demoing = false, assistOn = false, misses = 0, reverting = false, dead = false;
@@ -131,7 +160,9 @@
       var top = box.getBoundingClientRect().top + window.scrollY;
       var availW = Math.max((narrow ? les.clientWidth : les.clientWidth - 340), 200);
       if (narrow) {
-        sc = Math.max(Math.min(availW / 360, 1.3), .7);   /* el móvil ocupa todo el ancho: grande y fácil */
+        /* instrucciones fijas arriba y móvil del tamaño que quepa debajo: se ve todo sin subir ni bajar */
+        var availH = window.innerHeight - hd.getBoundingClientRect().height - coach.offsetHeight - 24;
+        sc = Math.max(Math.min(availW / 360, availH / 740, 1.3), .62);
       } else {
         sc = Math.max(Math.min((window.innerHeight - top - 14) / 740, availW / 360, 1.75), .5);
         if (window.innerHeight - top - 14 < 400) sc = Math.max(Math.min(availW / 360, 1), .55);
@@ -141,10 +172,8 @@
       box.style.width = 360 * sc + 'px'; box.style.height = 740 * sc + 'px';
       phone.scale = sc;
     };
-    var onScroll = function () { var c = document.querySelector('.coach'); if (c) $('bUp').hidden = !(c.getBoundingClientRect().bottom < 10); };
-    window.addEventListener('scroll', onScroll, { passive: true });
     window.addEventListener('resize', fit);
-    var ro = window.ResizeObserver ? new ResizeObserver(function () { fit(); }) : null; if (ro) ro.observe($('say'));
+    var ro = window.ResizeObserver ? new ResizeObserver(function () { fit(); }) : null; if (ro) ro.observe(document.querySelector('.coach'));
     fit(); setTimeout(fit, 60);
 
     var stale = function (t) { return dead || t !== tok; };
@@ -163,6 +192,7 @@
       $('ct').textContent = step.title; dots();
       sceneKey = null; phone.resetState(); $('cele').hidden = true;
       runTask(0);
+      if (who()) fb(pick(['Vamos' + tag() + '.', 'Con calma' + tag() + '.', 'Tú puedes' + tag() + '.']), true);
       window.scrollTo(0, 0); fit();
     }
 
@@ -218,7 +248,7 @@
 
     function showHint(auto) {
       if (!task || done || demoing) return;
-      if (task.type) { assistOn = true; updateAssist(); fb(auto ? 'Te ayudo: mira lo que brilla en <b>naranja</b>.' : 'Te marco lo que toca en <b>naranja</b>.'); return; }
+      if (task.type) { assistOn = true; updateAssist(); fb(auto ? 'Te ayudo' + tag() + ': mira lo que brilla en <b>naranja</b>.' : 'Te marco lo que toca en <b>naranja</b>.'); return; }
       var hs = hintOf(), ok = hs && phone.ring(hs);
       if (!ok && task.show) { task.show(phone); }
       fb(ok ? 'Mira lo que brilla en <b>naranja</b>: ahí es.' : (task.show ? 'Mira cómo se hace…' : 'Léelo con calma; no hay prisa.'));
@@ -250,7 +280,7 @@
       var tg = task.type.target;
       if (v.replace(/\s+$/, '') === tg) { return taskDone(); }
       if (tg.indexOf(v) !== 0) {
-        fb('Esa tecla no era. No pasa nada: pulsa ' + (S.get().os === 'ios' ? '<kbd>⌫</kbd>' : '<kbd>⌫</kbd>') + ' para borrar y sigue.');
+        fb('Esa tecla no era' + tag() + '. No pasa nada: pulsa ' + (S.get().os === 'ios' ? '<kbd>⌫</kbd>' : '<kbd>⌫</kbd>') + ' para borrar y sigue.');
         kb.setAssist('back');
       } else { fb(''); updateAssist(); }
     }
@@ -259,7 +289,7 @@
       if (done) return; done = true; clearTimeout(idleT); phone.unring(); kb.clearAssist(); chime();
       var my = tok;
       if (ti + 1 < step.tasks.length) {
-        fb('Bien. ✔', true);
+        fb('Bien' + tag() + '. ✔', true);
         timers.push(setTimeout(function () { if (!stale(my)) runTask(ti + 1); }, 1300));
       } else {
         timers.push(setTimeout(function () { if (!stale(my)) stepDone(); }, 700));
@@ -277,11 +307,11 @@
       S.markDone(os, mi, curSi); dots();
       var last = curSi + 1 >= mod.steps.length;
       if (!last) {
-        cele({ title: pick(PRAISE), msg: step.ok || '', btns: '<button class="btn good" data-a="next">Continuar ▶</button>', on: { next: function () { startStep(curSi + 1); } } });
+        cele({ title: pick(PRAISE) + tag() + '.', msg: step.ok || '', btns: '<button class="btn good" data-a="next">Continuar ▶</button>', on: { next: function () { startStep(curSi + 1); } } });
       } else {
         var hasNext = !!L[mi];
         cele({
-          title: 'Módulo terminado', msg: (step.ok || '') + '<br><br>Has terminado <b>' + mod.title + '</b>.',
+          title: 'Módulo terminado' + tag() + '.', msg: (step.ok || '') + '<br><br>Has terminado <b>' + mod.title + '</b>.',
           btns: (hasNext ? '<button class="btn good" data-a="nm">Siguiente módulo ▶</button>' : '') + '<button class="btn alt" data-a="menu">Volver al menú</button>',
           on: { nm: function () { go('#/m/' + (mi + 1) + '/0'); }, menu: function () { go('#/menu'); } }
         });
@@ -294,7 +324,6 @@
       else if (task.show) { fb('Mira cómo se hace…'); task.show(phone); }
     };
     $('bHint').onclick = function () { showHint(false); };
-    $('bUp').onclick = function () { window.scrollTo({ top: 0, behavior: 'smooth' }); };
     $('bRepeat').onclick = function () { startStep(curSi); };
     $('bMenu').onclick = function () { go('#/menu'); };
     $('bSkip').onclick = function () { if (curSi + 1 < mod.steps.length) startStep(curSi + 1); else go('#/menu'); };
@@ -304,7 +333,7 @@
       fit: fit,
       destroy: function () {
         dead = true; tok++; clearTimeout(idleT); clearTimeout(fbT); timers.forEach(clearTimeout); kb.cancelDemo();
-        window.removeEventListener('resize', fit); window.removeEventListener('scroll', onScroll); if (ro) ro.disconnect(); phone.destroy();
+        window.removeEventListener('resize', fit); if (ro) ro.disconnect(); phone.destroy();
       }
     };
     startStep(si);
@@ -316,6 +345,7 @@
     var st = S.get(), h = location.hash || '#/';
     document.documentElement.style.setProperty('--fs', st.fs + 'px');
     if (h === '#/elegir' || !st.os) { welcome(false); return; }
+    if (h === '#/hola' || !st.introDone) { intro(); return; }
     var m = h.match(/^#\/m\/(\d+)\/(\d+)$/);
     if (m) { lesson(+m[1], +m[2]); return; }
     menu();

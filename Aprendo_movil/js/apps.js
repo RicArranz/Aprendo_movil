@@ -178,7 +178,7 @@
     this.root.addEventListener('pointerdown', function (e) {
       var ed = e.target.closest('.edge, .gbar'), pn = e.target.closest('.p-panel');
       var base = { x0: e.clientX, y0: e.clientY, lx: e.clientX, ly: e.clientY, lt: Date.now(), dx: 0, dy: 0 };
-      if (ed) { e.preventDefault(); self.drag = Object.assign({ zone: ed.dataset.zone }, base); }
+      if (ed) { e.preventDefault(); self.drag = Object.assign({ zone: ed.dataset.zone, bar: ed.classList.contains('gbar') }, base); }
       else if (!pn && self.edgeZone(e)) self.drag = Object.assign({ zone: self.edgeZone(e) }, base);
       else if (pn && !e.target.closest('[data-slider]') && !e.target.closest('.qs-edit') && !(self.panel && self.panel.edit)) self.drag = Object.assign({ zone: 'panel' }, base);
     });
@@ -214,7 +214,12 @@
       if (z === 'botHome' || z === 'barG') {
         if (dy < -45 && Math.abs(dx) < 140) { var held = Date.now() - d.lt > 380 && dy > -300; self.emit('gesture', { kind: held ? 'recents' : 'home' }); if (held) self.showRecents(); else self.goHome(); }
         else if (Math.abs(dx) > 60 && Math.abs(dy) < 50) { self.emit('gesture', { kind: 'switch' }); self.switchPrev(); }
-        else self.toast('Pon el dedo en la rayita y desliza hacia arriba.');
+        else if (d.bar && !d.moved) {
+          /* un simple toque en la barra llega a lo que haya debajo (campo de escribir, botón…): la barra solo recoge los arrastres */
+          var bar = self.q('.gbar'); bar.style.pointerEvents = 'none';
+          var under = document.elementFromPoint(d.x0, d.y0); bar.style.pointerEvents = '';
+          if (under && !under.closest('.gbar')) under.click();
+        } else self.toast('Pon el dedo en la rayita y desliza hacia arriba.');
       } else if (z === 'edgeL' || z === 'edgeR') {
         if ((z === 'edgeL' && dx > 45) || (z === 'edgeR' && dx < -45)) { self.emit('gesture', { kind: 'back' }); self.back(); }
         else if (d.moved) self.toast('Pon el dedo en el borde de la pantalla y arrástralo hacia dentro.');
@@ -280,7 +285,8 @@
       if (d.axis === 'v' && d.dy < -70) {
         d.c.style.transition = 'transform .2s, opacity .2s'; d.c.style.transform = 'translateY(-380px)'; d.c.style.opacity = 0;
         setTimeout(function () { if (self.dead) return; self.closeApp(d.id); if (self.fg === 'recents') self.renderRecents(); }, 200);
-      } else if (d.axis === 'v') { d.c.style.transform = ''; d.c.style.opacity = ''; }
+      } else if (d.axis === 'v') { d.c.style.transform = ''; d.c.style.opacity = ''; self._noClick = Date.now(); }
+      else if (d.axis === 'h') self._noClick = Date.now();
       else if (!d.axis) { self._noClick = Date.now(); self.openApp(d.id, 'recents'); }
     };
     window.addEventListener('pointermove', this._rm); window.addEventListener('pointerup', this._ru);

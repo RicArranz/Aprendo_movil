@@ -529,3 +529,6 @@
 .phone.android.gest .p-nav { height: 40px; }
 .phone.ios .p-nav { height: 34px; }
 .gbar:active .home-ind { transform: scaleX(1.12) scaleY(1.3); background: #1b6ef3 !important; }
+
+/* iPhone sin botón: el contenido de las apps deja libre la franja de la barra de gestos (como el área segura del iPhone real) */
+.phone.ios:not(.hasbtn) .p-app { bottom: 30px; }

@@ -18,7 +18,7 @@ const URL = 'file://' + path.resolve(__dirname, '..', 'index.html');
     const page = await browser.newPage({ viewport: { width: +(process.env.W || 1366), height: +(process.env.H || 768) } });
     page.on('pageerror', e => errors.push(v.name + ' pageerror: ' + e.message));
     page.on('console', m => { if (m.type() === 'error') errors.push(v.name + ' console: ' + m.text()); });
-    await page.addInitScript(s => { localStorage.setItem('aprendoMovil.v1', JSON.stringify(Object.assign({ done: {}, pos: {}, fs: 20, sound: false }, s))); }, v.st);
+    await page.addInitScript(s => { localStorage.setItem('aprendoMovil.v1', JSON.stringify(Object.assign({ introDone: 1, name: 'Marta', done: {}, pos: {}, fs: 20, sound: false }, s))); }, v.st);
     await page.goto(URL);
     await page.evaluate(() => { AM.slow = 0.05; });
     const A = v.st.os === 'android';

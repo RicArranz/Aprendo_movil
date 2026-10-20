@@ -3,7 +3,7 @@
   'use strict';
   var AM = window.AM = window.AM || {};
   var KEY = 'aprendoMovil.v1';
-  var def = { os: null, iosHome: null, done: {}, pos: {}, fs: 20, sound: false };
+  var def = { os: null, iosHome: null, name: '', introDone: false, done: {}, pos: {}, fs: 20, sound: false };
   var s;
   try { s = Object.assign({}, def, JSON.parse(localStorage.getItem(KEY) || '{}')); } catch (e) { s = Object.assign({}, def); }
   function save() { try { localStorage.setItem(KEY, JSON.stringify(s)); } catch (e) { /* sin almacenamiento */ } }

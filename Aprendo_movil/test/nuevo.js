@@ -9,7 +9,7 @@ const fails = []; const ok = (c, m) => { if (!c) fails.push(m); else console.log
     const ctx = await browser.newContext({ viewport: { width: 420, height: 900 }, hasTouch: true, isMobile: true });
     const page = await ctx.newPage(); const cdp = await ctx.newCDPSession(page);
     const errs = []; page.on('pageerror', e => errs.push(e.message));
-    await page.addInitScript(s => localStorage.setItem('aprendoMovil.v1', JSON.stringify(Object.assign({ done: {}, pos: {}, fs: 20 }, s))), v.st);
+    await page.addInitScript(s => localStorage.setItem('aprendoMovil.v1', JSON.stringify(Object.assign({ introDone: 1, name: 'Marta', done: {}, pos: {}, fs: 20 }, s))), v.st);
     await page.goto(URL + '#/m/1/6'); await page.waitForTimeout(500);
     const wait = ms => page.waitForTimeout(ms);
     const ev = f => page.evaluate(f);

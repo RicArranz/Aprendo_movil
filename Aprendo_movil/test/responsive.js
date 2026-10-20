@@ -9,7 +9,7 @@ const sizes = [[320, 568], [360, 640], [390, 844], [768, 1024], [1024, 768], [13
   const bad = [];
   for (const [w, h] of sizes) for (const fs of [16, 20, 26, 32]) for (const os of ['android', 'ios']) {
     const page = await b.newPage({ viewport: { width: w, height: h } });
-    await page.addInitScript(([o, f]) => localStorage.setItem('aprendoMovil.v1', JSON.stringify({ os: o, iosHome: 'notch', done: {}, pos: {}, fs: f })), [os, fs]);
+    await page.addInitScript(([o, f]) => localStorage.setItem('aprendoMovil.v1', JSON.stringify({ introDone: 1, name: 'Marta', os: o, iosHome: 'notch', done: {}, pos: {}, fs: f })), [os, fs]);
     for (const hash of ['#/', '#/menu', '#/m/2/1', '#/m/4/6', '#/elegir']) {
       await page.goto(URL + hash); await page.waitForTimeout(250);
       if (hash === '#/m/2/1') { await page.waitForTimeout(1500); }

@@ -161,8 +161,12 @@ main { padding: 1rem; }
   .top { padding: .35rem .5rem; gap: .35rem; }
   .logo img { width: 2.2em; height: 2.2em; }
   .tbtn { min-height: 2.4em; min-width: 2.4em; padding: 0 .55em; }
-  .coach { position: static; padding: .6rem .8rem; gap: .4rem; border-radius: 16px; }
-  .coach .where, .coach h2 { display: none; }
+  .coach { position: sticky; top: var(--hh, 52px); z-index: 15; padding: .5rem .8rem; gap: .3rem; border-radius: 16px; max-height: 44dvh; overflow-y: auto; box-shadow: 0 6px 14px rgba(29,36,51,.14); }
+  .coach .where, .coach h2, .coach .dots { display: none; }
+  .fb:not(.show) { min-height: 0; }
+  .coach .foot .pill { min-height: 2.2rem; }
+  .coach .row .btn { min-height: 2.2rem; }
+  .stage { isolation: isolate; padding-bottom: .6rem; }
   .coach .row { gap: .4rem; }
   .coach .row .btn { flex: 1 1 6rem; padding: .2rem .4rem; min-height: 2.4rem; font-size: .9rem; }
   .coach .foot { gap: 0 .6rem; }
@@ -191,9 +195,9 @@ main { padding: 1rem; }
 .coach.nostick { position: static; }
 .coach .foot .linkbtn { white-space: normal; text-align: left; }
 
-.fab { position: fixed; left: 50%; bottom: .8rem; transform: translateX(-50%); z-index: 40; border: 0; border-radius: 99px; background: var(--primary); color: #fff; font-weight: 800; font-size: .95rem; padding: .7rem 1.2rem; box-shadow: 0 6px 16px rgba(0,0,0,.35); cursor: pointer; }
+.fab { display: none !important; position: fixed; left: 50%; bottom: .8rem; transform: translateX(-50%); z-index: 40; border: 0; border-radius: 99px; background: var(--primary); color: #fff; font-weight: 800; font-size: .95rem; padding: .7rem 1.2rem; box-shadow: 0 6px 16px rgba(0,0,0,.35); cursor: pointer; }
 .fab[hidden] { display: none; }
-@media (min-width: 821px) { .fab { display: none !important; } }
+
 
 /* en el móvil, pulsar dos veces seguidas NO hace zoom (el botón del iPhone, las teclas…); el pellizco sigue valiendo */
 html, body, .phone, .phone * { touch-action: manipulation; }
@@ -243,3 +247,29 @@ details > summary:focus-visible { outline: 4px solid #f59e0b; outline-offset: 2p
 .inst-steps { text-align: left; background: var(--warn-bg); border-radius: 16px; padding: .6rem 1rem .6rem .4rem; margin-bottom: 1rem; font-size: .95rem; }
 .inst-steps ol { margin: 0; padding-left: 1.6rem; } .inst-steps li { margin: .3rem 0; }
 .inst-btns { display: flex; flex-direction: column; gap: .7rem; align-items: stretch; }
+
+/* ---------- presentación y nombre ---------- */
+.intro-list { list-style: none; margin: .4rem auto 1rem; padding: 0; max-width: 34rem; display: grid; gap: .6rem; }
+.intro-list li { background: #fff; border: 2px solid var(--line); border-radius: 18px; padding: .7rem 1rem .7rem 2.6rem; font-size: 1.05rem; line-height: 1.4; position: relative; }
+.intro-list li::before { content: ""; position: absolute; left: .9rem; top: 1.05rem; width: .8rem; height: .45rem; border: solid var(--ok); border-width: 0 0 3px 3px; transform: rotate(-45deg); }
+.namebox { max-width: 34rem; margin: 0 auto; display: flex; flex-direction: column; gap: .7rem; align-items: stretch; text-align: center; }
+.namebox label { font-size: 1.3rem; font-weight: 800; }
+.namebox input { font: inherit; font-size: max(16px, 1.3rem); padding: .6rem .9rem; border: 3px solid var(--line); border-radius: 18px; text-align: center; background: #fff; color: var(--ink); width: 100%; }
+.namebox input:focus { outline: 4px solid #f59e0b; outline-offset: 2px; border-color: var(--primary); }
+.namebox .pill { align-self: center; }
+@media (max-width: 820px) { .intro .hero h2 { font-size: 1.35rem; margin: 0; } .intro .hero { padding: 0; } .intro-list { gap: .4rem; margin: .3rem 0 .6rem; } .intro-list li { font-size: .88rem; line-height: 1.3; padding: .45rem .7rem .45rem 2.2rem; } .intro-list li::before { top: .8rem; left: .75rem; } .namebox label { font-size: 1.1rem; } .namebox { gap: .5rem; } }
+
+/* ---------- móvil pequeño, versión compacta de las instrucciones (todo cabe sin subir ni bajar) ---------- */
+@media (max-width: 820px) {
+  .coach { flex-flow: row wrap; align-items: center; gap: .3rem .4rem; max-height: none; overflow: visible; padding: .45rem .6rem; }
+  .coach > .say { flex: 1 0 100%; max-height: 24dvh; overflow-y: auto; }
+  .coach .sub, .lg { display: none; }
+  .coach .row, .coach .foot { display: contents; }
+  .coach .row .btn, .coach .foot .pill { flex: 1 1 auto; min-height: 36px; font-size: min(.82rem, 15px); padding: 2px 10px; gap: 4px; box-shadow: 0 2px 0 var(--line); }
+  .coach .row .btn { border-radius: 99px; }
+  /* los avisos se posan encima del móvil, sin empujarlo ni cambiar su tamaño; no tapan los toques */
+  .coach > .fb, .coach > .mira { position: absolute; left: 0; right: 0; top: calc(100% + 6px); z-index: 16; pointer-events: none; box-shadow: 0 6px 14px rgba(29,36,51,.2); }
+  .coach > .fb:not(.show) { display: none; }
+  .coach > .fb.show { background: var(--warn-bg); } .coach > .fb.good { background: var(--ok-bg); }
+  .coach > .mira { background: #eef2ff; }
+}

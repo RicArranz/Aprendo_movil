@@ -7,7 +7,7 @@ const URL = 'file://' + path.resolve(__dirname, '..', 'index.html');
   const browser = await pw.chromium.launch(process.env.CHROME_PATH ? { executablePath: process.env.CHROME_PATH } : {});
   for (const v of [{ n: 'and', st: { os: 'android' } }, { n: 'ios', st: { os: 'ios', iosHome: 'notch' } }, { n: 'iosb', st: { os: 'ios', iosHome: 'button' } }]) {
     const page = await browser.newPage({ viewport: { width: 1000, height: 900 } });
-    await page.addInitScript(s => localStorage.setItem('aprendoMovil.v1', JSON.stringify(Object.assign({ done: {}, pos: {}, fs: 20 }, s))), v.st);
+    await page.addInitScript(s => localStorage.setItem('aprendoMovil.v1', JSON.stringify(Object.assign({ introDone: 1, name: 'Marta', done: {}, pos: {}, fs: 20 }, s))), v.st);
     await page.goto(URL + '#/m/1/6'); await page.evaluate(() => { AM.slow = 0.01; });
     await page.waitForTimeout(400);
     const shot = async n => { await page.waitForTimeout(350); await (await page.$('#stagebox')).screenshot({ path: `${out}/${v.n}-${n}.png` }); };
